@@ -2,7 +2,7 @@
 
 
 $debut = microtime(true); 
-define('ENVIRONMENT', 'development');
+define('ENVIRONMENT', 'production');
 
 
 if (file_exists('Lib/vendor/autoload.php')) {
@@ -18,10 +18,16 @@ if (defined('ENVIRONMENT')) {
     switch (ENVIRONMENT) {
         case 'development':
             error_reporting(E_ALL);
+            ini_set("display_errors","On");
+            ini_set('log_errors', 'On');
+              ini_set('error_log', 'logs/errors.log');
             
             break;
         case 'production':
-            error_reporting(0);
+            error_reporting(E_All);
+           ini_set("display_errors","Off");
+           ini_set('log_errors', 'On');
+           ini_set('error_log', 'logs/errors.log');
             break;
         default:
             exit('L environnement de travail n \'est pas défini.');
