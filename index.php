@@ -2,6 +2,7 @@
 
 
 $debut = microtime(true); 
+//deux environnements : développement avec affichage des erreurs et temps de génération de la page, production avec les erreurs seulements dans les logs.
 define('ENVIRONMENT', 'development');
 
 
@@ -25,7 +26,7 @@ if (defined('ENVIRONMENT')) {
             break;
         case 'production':
             error_reporting(E_All);
-           ini_set("display_errors","On");
+           ini_set("display_errors","Off");
            ini_set('log_errors', 'On');
            ini_set('error_log', 'logs/errors.log');
             break;
