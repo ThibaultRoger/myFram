@@ -9,7 +9,7 @@ use Lib\Core\Controller;
     public function index() {
     
       $this->render('home', 'Home');
-
+       
     }
 
    
