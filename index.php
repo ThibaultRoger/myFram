@@ -1,10 +1,8 @@
 <?php
 
-
 $debut = microtime(true); 
 //deux environnements : développement avec affichage des erreurs et temps de génération de la page, production avec les erreurs seulements dans les logs.
 define('ENVIRONMENT', 'development');
-
 
 if (file_exists('Lib/vendor/autoload.php')) {
     require 'Lib/vendor/autoload.php';
@@ -40,13 +38,24 @@ if (defined('ENVIRONMENT')) {
 
 use Lib\Core\Routes;
 use Lib\Core\Session;
-Routes::Router();
+use Lib\Core\Cache;
+ $cache = new Cache();
+ if(file_exists($cache->cacheFileName) ){
+              $cache->cacheFileName;
+              $cache->caching = false;
+                echo file_get_contents($cache->cacheFileName);
+                
+            }
+else {
+	Routes::Router();
+}
+ 
 ?>
 <?php if (defined('ENVIRONMENT')) { 
 	 switch (ENVIRONMENT) {
 	case 'development':
 	?>
-<!--<div style="position:fixed;bottom:0; background:#900; color:#FFF; line-height:30px; height:45px; left:0; right:0; padding-left:10px; ">
+<div style="position:fixed;bottom:0; background:#900; color:#FFF; line-height:30px; height:45px; left:0; right:0; padding-left:10px; ">
 <?php 
 echo 'Page générée en '. round(microtime(true) - $debut,5).' secondes <br />';
  break;
@@ -55,5 +64,5 @@ echo 'Page générée en '. round(microtime(true) - $debut,5).' secondes <br />'
 
 
 ?>
-</div>-->
+</div>
 

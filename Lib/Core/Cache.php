@@ -4,7 +4,7 @@ namespace Lib\Core;
   class Cache {
      
 
-    public  $cacheDir = "/var/www/myFram/cache";
+    public  $cacheDir;
     public  $caching = false;
     public  $cacheFile;
     public  $cacheFileName;
@@ -12,15 +12,15 @@ namespace Lib\Core;
     public  $cacheLog;
 
     function __construct(){
+			$dir = dirname(dirname(__FILE__));
+			$this->cacheDir = dirname($dir);
+			$this->cacheDir = $this->cacheDir.'/cache';
 		
         $this->cacheFile = base64_encode($_SERVER['REQUEST_URI']);
+       
         $this->cacheFileName = $this->cacheDir.'/'.$this->cacheFile.'.txt';
-        $this->cacheLogFile = $this->cacheDir."/log.txt";
         if(!is_dir($this->cacheDir)) mkdir($this->cacheDir, 0777);
-        if(file_exists($this->cacheLogFile))
-            $this->cacheLog = unserialize(file_get_contents($this->cacheLogFile));
-        else
-            $this->cacheLog = array();
+     
     }
 
     function start(){
@@ -43,8 +43,6 @@ namespace Lib\Core;
         if($this->caching){
             file_put_contents($this->cacheFileName,ob_get_contents());
             ob_end_flush();
-            $this->cacheLog[$this->cacheFile] = 1;
-            if(file_put_contents($this->cacheLogFile,serialize($this->cacheLog)))
                 return true;
         }
     }
@@ -55,7 +53,6 @@ namespace Lib\Core;
 		
 		 $cacheFile = base64_encode($location);
         $cacheFileName = $this->cacheDir.'/'.$cacheFile.'.txt';
-        $cacheLogFile = $this->cacheDir."/log.txt";
         $location = array_slice(explode('/',$_SERVER['REQUEST_URI']), 2);
             if(file_exists($cacheFileName) ){
                 unlink($cacheFileName);
