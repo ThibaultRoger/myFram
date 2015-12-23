@@ -1,12 +1,9 @@
 <?php
 
 $debut = microtime(true); 
-<<<<<<< HEAD
-define('ENVIRONMENT', 'production');
-=======
-//deux environnements : développement avec affichage des erreurs et temps de génération de la page, production avec les erreurs seulements dans les logs.
+
 define('ENVIRONMENT', 'development');
->>>>>>> dev
+
 
 if (file_exists('Lib/vendor/autoload.php')) {
     require 'Lib/vendor/autoload.php';
